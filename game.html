@@ -1,0 +1,954 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mochi Pet ♡ Dream World</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box}
+body{margin:0;background:#f8dce8;color:#896d72;font-family:Mali,sans-serif;padding:12px}
+button,input{font-family:inherit}
+button{border:2px solid #f0c6d5;background:white;color:#896d72;border-radius:13px;padding:10px;cursor:pointer;box-shadow:0 3px #e9c1d0}
+button:hover{background:#fff0f5;transform:translateY(-2px)}
+button:active{transform:scale(.96)}
+.primary{background:#f48eaf;color:white;border-color:#e47b9e}
+.app{max-width:1450px;margin:auto;background:#ffe9f0;border:3px solid white;border-radius:22px;padding:17px;min-height:95vh}
+header{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:15px}
+.logo{font-size:27px;color:#e7789d;font-weight:bold}
+.logo small{display:block;font-size:10px;letter-spacing:3px}
+.profile{flex:1;min-width:170px;background:white;border:2px solid #f1c7d5;padding:10px;border-radius:15px}
+.xpbg,.barbg{height:10px;background:#f5e2e7;border-radius:20px;overflow:hidden}
+.xpfill{height:100%;background:#f28bac;width:0}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav button{font-size:10px;min-width:64px}
+nav span{display:block;font-size:20px}
+nav button.active{background:#f38fae;color:white}
+.layout{display:grid;grid-template-columns:255px 1fr;gap:13px}
+.sidebar{display:flex;flex-direction:column;gap:12px}
+.panel,.page-panel{background:#fffaf2;border:2px solid #efc5d4;border-radius:19px;padding:15px;box-shadow:0 4px #edcbd5}
+.heading{color:#e67b9d;font-weight:bold;margin-bottom:12px;font-size:14px}
+.stat{font-size:11px;margin:9px 0}
+.stathead{display:flex;justify-content:space-between}
+.bar{height:10px;border-radius:20px;margin-top:4px;background:#f3e4dd;overflow:hidden}
+.fill{height:100%;border-radius:20px}
+.pink{background:#f58daf}.orange{background:#ffb76d}.blue{background:#8cc9ed}.green{background:#97d5b6}
+.main{min-width:0}
+.page{display:none}
+.page.active{display:block}
+.page-panel{min-height:470px}
+h2{color:#e57c9e;margin:0 0 7px}
+.small{font-size:11px;color:#b58d98;line-height:1.9}
+.room{height:500px;position:relative;overflow:hidden;border:3px solid #b18d80;border-radius:22px;background:linear-gradient(to bottom,#fff0d9 0%,#fff0d9 63%,#ffe2c1 63%,#ffe2c1 70%,#d7a36f 70%)}
+.window{position:absolute;left:8%;top:12%;width:18%;height:31%;background:#bde5f7;border:9px solid #f8a8c5}
+.window:after{content:'☁️';position:absolute;top:10%;left:12%;font-size:24px}
+.clock{position:absolute;top:8%;left:46%;font-size:40px;color:#987966}
+.picture{position:absolute;right:12%;top:13%;width:100px;height:85px;background:white;border:6px solid #c29a79;display:grid;place-items:center;font-size:35px}
+.shelf{position:absolute;top:43%;right:8%;font-size:27px}
+.plant{position:absolute;bottom:25%;left:5%;font-size:48px;z-index:2}
+.sofa{position:absolute;bottom:22%;right:5%;font-size:67px;z-index:2}
+.rug{position:absolute;bottom:4%;left:23%;width:55%;height:65px;border-radius:50%;background:#f4b8ce;border:5px dashed #fff0f5}
+.desk{position:absolute;bottom:12%;left:26%;width:48%;height:45px;background:#c58e54;border-radius:5px;z-index:3;box-shadow:0 8px #9d6a3e}
+.desk:before,.desk:after{content:'';position:absolute;top:40px;width:18px;height:65px;background:#9d6a3e}
+.desk:before{left:10%}.desk:after{right:10%}
+.lamp{position:absolute;top:48%;left:43%;font-size:36px;z-index:3}
+.pet{position:absolute;bottom:22%;left:50%;transform:translateX(-50%);width:110px;height:108px;border-radius:43%;background:#b99ce8;border:3px solid #927ac3;box-shadow:inset -9px -8px #9e83d0;display:grid;place-items:center;font-size:34px;z-index:5;cursor:pointer;animation:bounce 2s infinite}
+.pet:before,.pet:after{content:'';position:absolute;top:-13px;width:24px;height:24px;border:3px solid #927ac3;border-radius:50%;background:#b99ce8}
+.pet:before{left:5px}.pet:after{right:5px}
+@keyframes bounce{50%{margin-bottom:9px}}
+.face{z-index:2;text-align:center}
+.bubble{position:absolute;z-index:6;bottom:43%;left:50%;transform:translateX(-50%);padding:8px 13px;border-radius:15px;background:white;border:2px solid #a98882;font-size:11px;white-space:nowrap}
+.roomtag{position:absolute;top:12px;left:12px;background:#ffffffd9;border-radius:20px;padding:5px 12px;font-size:11px;z-index:8}
+.actions{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0}
+.actions button{font-size:11px}
+.actions span{display:block;font-size:23px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-top:15px}
+.item{background:white;border:2px solid #efc7d5;border-radius:16px;padding:13px;text-align:center}
+.item .emoji{font-size:42px}
+.item b{font-size:12px}
+.item p{font-size:11px}
+.item button{width:100%;margin-top:7px;font-size:11px}
+.desc{font-size:11px;color:#b58c98;line-height:2}
+.kitchen{background:#fff0e3;border:2px dashed #e9bdc9;padding:15px;border-radius:17px;text-align:center;margin:12px 0}
+.ingredient{display:inline-flex;flex-direction:column;background:white;border:2px solid #f0c8d4;border-radius:12px;padding:8px;margin:3px;font-size:10px}
+.ingredient span{font-size:25px}
+.foodtray{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;background:#fff0f5;padding:14px;border-radius:15px;margin-top:15px}
+.foodpiece{font-size:43px;cursor:grab;touch-action:none;user-select:none;padding:5px}
+.feedtarget{margin:15px auto;background:#f3e7ff;border:3px dashed #b89bdd;border-radius:20px;padding:20px;text-align:center;max-width:280px}
+.feedtarget .emoji{font-size:75px}
+.toyzone{text-align:center;background:#fff0f5;border-radius:20px;padding:25px;margin:15px 0}
+.squeeze{font-size:100px;display:inline-block;cursor:grab;user-select:none;touch-action:none;transition:transform .12s}
+.squeeze:active,.squeeze.pressed{transform:scale(.7,.85) rotate(-8deg)}
+.minigame{background:#fff0f5;border:2px solid #f0c4d3;border-radius:20px;padding:12px;text-align:center;margin-top:12px}
+.gamecanvas{width:100%;height:230px;display:block;background:#dff2ff;border-radius:15px;touch-action:none}
+.hidden{display:none!important}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:50;background:#d87b9d;color:white;border-radius:30px;padding:11px 20px;font-size:12px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.actions{grid-template-columns:repeat(3,1fr)}.room{height:390px}.bottom{grid-template-columns:1fr}}
+
+/* Single-game fullscreen pixel adventure */
+#gameArea.pixel-fullscreen{
+  position:fixed!important;
+  inset:0!important;
+  z-index:99999!important;
+  width:100vw!important;
+  height:100dvh!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:14px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:#c7e1e5!important;
+  display:flex!important;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  overflow:auto;
+}
+#gameArea.pixel-fullscreen h3{
+  color:#657a72;
+  margin:0;
+  font-size:16px;
+}
+#gameArea.pixel-fullscreen #gameInfo{
+  color:#61746f;
+  margin:0;
+  text-align:center;
+}
+#gameArea.pixel-fullscreen canvas{
+  width:min(100%,1100px)!important;
+  height:auto!important;
+  max-height:66vh;
+  aspect-ratio:16/9;
+  object-fit:contain;
+  image-rendering:pixelated;
+  background:#b9dce3;
+  border:5px solid #fff8ed;
+  border-radius:8px;
+  box-shadow:0 5px 0 #a7c6c8;
+}
+.pixel-hud{
+  width:min(100%,1100px);
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  color:#526b67;
+  font-size:13px;
+  font-weight:bold;
+}
+.pixel-hud span{
+  background:#fff8ed;
+  border:2px solid white;
+  border-radius:8px;
+  padding:7px 11px;
+}
+.pixel-buttons{
+  width:min(100%,1100px);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.pixel-side-buttons{display:flex;gap:8px}
+.pixel-buttons button{
+  min-width:54px;
+  min-height:46px;
+  padding:8px 12px;
+  border:3px solid white;
+  border-radius:9px;
+  background:#e8d2dc;
+  color:#665e65;
+  box-shadow:0 4px #c9aeba;
+  font-weight:bold;
+  touch-action:none;
+}
+.pixel-buttons .pixel-jump-button{
+  min-width:100px;
+  background:#d9d0e9;
+  box-shadow:0 4px #b7a9cf;
+}
+.pixel-buttons .pixel-exit-button{
+  background:#fff8ed;
+  box-shadow:0 4px #d8cdbd;
+  font-size:12px;
+}
+/* Smooth, readable end-of-game panel (intentionally not pixel-styled) */
+.pixel-result{
+  width:min(100%,1100px);
+  background:rgba(255,250,247,.97);
+  border:1px solid #f1d8df;
+  border-radius:20px;
+  padding:18px 20px;
+  color:#79636d;
+  text-align:center;
+  box-shadow:0 8px 24px rgba(116,91,105,.12);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+.pixel-result[hidden]{display:none!important}
+.pixel-result h4{font-size:21px;margin:0 0 6px;font-weight:750;color:#9b7182;letter-spacing:0}
+.pixel-result p{font-size:13px;margin:0 0 12px;line-height:1.6}
+.pixel-result .result-stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:10px 0 15px}
+.pixel-result .result-stat{background:#fff0f4;border-radius:12px;padding:9px 14px;min-width:105px;font-size:12px}
+.pixel-result .result-stat strong{display:block;font-size:19px;color:#987084;margin-top:2px}
+.pixel-result button{border:0;border-radius:999px;padding:11px 24px;background:#e9bfd0;color:#714f60;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #d6aabb}
+.pixel-result button:hover{background:#f0cbd9;transform:translateY(-1px)}
+@media(max-width:600px){
+  #gameArea.pixel-fullscreen{padding:8px!important}
+  #gameArea.pixel-fullscreen canvas{max-height:58vh}
+  .pixel-hud{font-size:10px}
+  .pixel-result{padding:14px 12px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div class="logo">🐾 MOCHI PET<small>MY DREAM WORLD ♡</small></div>
+<div class="profile">
+<b id="level">Lv.1</b>　<span>Mochi</span><br>
+<div class="xpbg"><div id="xpbar" class="xpfill"></div></div>
+<small>⭐ <span id="xp">0</span> XP　🪙 <span id="coins">200</span></small>
+</div>
+<nav>
+<button class="active" onclick="go('home',this)"><span>🏠</span>Home</button>
+<button onclick="go('kitchen',this)"><span>🍰</span>Kitchen</button>
+<button onclick="go('market',this)"><span>🛒</span>Market</button>
+<button onclick="go('toys',this)"><span>🧸</span>Toys</button>
+<button onclick="go('games',this)"><span>🎮</span>Games</button>
+<button onclick="go('shop',this)"><span>🎀</span>Toy Shop</button>
+<button onclick="go('chat',this)"><span>💬</span>Chat</button>
+</nav>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+<section class="panel">
+<div class="heading">💗 MOCHI STATUS</div>
+<div id="stats"></div>
+<button style="width:100%;margin-top:7px" onclick="action('bath')">🛁 Take a Bath</button>
+<button style="width:100%;margin-top:7px" onclick="action('sleep')">😴 Go to Sleep</button>
+</section>
+<section class="panel">
+<div class="heading">🎒 INVENTORY</div>
+<div id="inventory" class="desc"></div>
+</section>
+<section class="panel">
+<div class="heading">🌟 DAILY MISSION</div>
+<div class="desc">☐ Cook something<br>☐ Play a mini game<br>☐ Feed Mochi<br>☐ Play with a toy</div>
+</section>
+<section class="panel">
+<div class="heading">💰 MY COINS</div>
+<div style="font-size:25px">🪙 <b id="wallet">200</b></div>
+<div class="desc">Play games to earn more coins!</div>
+</section>
+</aside>
+
+<main class="main">
+<div id="home" class="page active">
+<div class="room">
+<div class="roomtag">🏠 MOCHI'S COZY HOME</div>
+<div class="window"></div><div class="clock">◷</div>
+<div class="picture">🌷</div><div class="shelf">📚 🧸</div>
+<div class="plant">🪴</div><div class="sofa">🛋️</div>
+<div class="lamp">💡</div><div class="rug"></div>
+<div class="desk"></div>
+<div class="bubble" id="bubble">Mochi is waiting for you! ♡</div>
+<div class="pet" onclick="petTalk()"><div id="face" class="face">•ᴗ•</div></div>
+</div>
+<div class="actions">
+<button onclick="action('feed')"><span>🍓</span>Feed</button>
+<button onclick="action('play')"><span>🧸</span>Play</button>
+<button onclick="action('pet')"><span>🖐️</span>Pet</button>
+<button onclick="action('sleep')"><span>😴</span>Sleep</button>
+<button onclick="go('kitchen')"><span>🍰</span>Kitchen</button>
+<button onclick="go('games')"><span>🎮</span>Mini Games</button>
+</div>
+</div>
+
+<div id="kitchen" class="page">
+<div class="page-panel">
+<h2>🍰 Mochi's Kitchen</h2>
+<p class="desc">Make delicious treats and drag them to Mochi to feed your little friend!</p>
+<div class="kitchen">
+<div style="font-size:65px">🥣 🥛 🥚 🔥</div>
+<b>Let's Make Something Yummy!</b>
+<div id="ingredients"></div>
+</div>
+<h3>📖 Recipe Book</h3>
+<div id="recipes" class="grid"></div>
+<h3>🍽️ Mochi's Food Plate</h3>
+<p class="desc">Drag a food item onto Mochi to feed them!</p>
+<div class="foodtray" id="foodtray">No food yet. Let's cook something! ♡</div>
+<div class="feedtarget" ondragover="event.preventDefault()" ondrop="dropFood(event)">
+<div class="emoji">🐰</div>
+<b>Drop Food Here!</b>
+<p class="desc">Mochi is hungry! ♡</p>
+</div>
+</div>
+</div>
+
+<div id="market" class="page">
+<div class="page-panel">
+<h2>🛒 Mochi Supermarket</h2>
+<p class="desc">Buy fresh ingredients for your delicious recipes!</p>
+<div class="grid" id="groceries"></div>
+</div>
+</div>
+
+<div id="toys" class="page">
+<div class="page-panel">
+<h2>🧸 Squishy Play Room</h2>
+<p class="desc">Press and hold your squishy toy to squeeze it!</p>
+<div class="toyzone">
+<div id="squishy" class="squeeze">🍮</div>
+<h3 id="toyName">Pudding Squishy</h3>
+<p id="toyHint" class="desc">Press and hold to squeeze! ♡</p>
+<div id="toyStars">✨ 💗 ✨</div>
+</div>
+<div id="ownedToys" class="grid"></div>
+</div>
+</div>
+
+<div id="shop" class="page">
+<div class="page-panel">
+<h2>🎀 Mochi Toy Shop</h2>
+<p class="desc">Find the cutest toys for your little friend!</p>
+<div class="grid" id="toyshop"></div>
+</div>
+</div>
+
+<div id="games" class="page">
+<div class="page-panel">
+<h2>🎮 Mochi Mini Game World</h2>
+<p class="desc">Choose your favorite game and earn coins!</p>
+<div class="grid">
+<div class="item"><div class="emoji">🐰</div><b>Mochi's Pixel Adventure</b><p>Run, jump between pastel platforms, and collect buttery-yellow coins!</p><button class="primary" onclick="startGame('jump')">Play Adventure ✦</button></div>
+</div>
+<div id="gameArea" class="minigame hidden">
+<h3 id="gameTitle">Game</h3>
+<p id="gameInfo" class="desc"></p>
+<canvas id="canvas" class="gamecanvas" width="600" height="260"></canvas>
+<div id="gameControls" style="margin-top:12px"></div>
+</div>
+</div>
+</div>
+
+<div id="chat" class="page">
+<div class="page-panel">
+<h2>💬 Chat with Mochi</h2>
+<div style="text-align:center;font-size:80px">🐰</div>
+<div id="chatbox" class="desc" style="background:white;padding:15px;border-radius:12px;min-height:100px">🐰 Mochi: Let's play together! ♡</div>
+<div style="display:flex;gap:5px;margin-top:10px">
+<input id="chatinput" placeholder="Say something to Mochi..." style="flex:1;min-width:0;padding:10px;border:2px solid #edc6d4;border-radius:12px">
+<button class="primary" onclick="sendChat()">Send</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+<section class="panel"><div class="heading">💗 ACTIVITY LOG</div><div id="log" class="desc">✨ Your adventure with Mochi begins!</div></section>
+<section class="panel"><div class="heading">🌸 LITTLE NOTE</div><p class="desc">A little world filled with happiness. Cook, play, shop and take care of Mochi every day! ♡</p><button onclick="save()">💾 Save Game</button></section>
+</div>
+</div>
+
+<script>
+const base={level:1,xp:0,coins:200,happiness:85,hunger:75,energy:90,clean:90,inv:{},foods:{},toys:['pudding']};
+let d={...base,inv:{},foods:{},toys:['pudding']};
+let selectedToy='pudding',gameLoop=null,gameType='',gameScore=0;
+const $=id=>document.getElementById(id);
+const clamp=n=>Math.max(0,Math.min(100,n));
+
+const ingredients=[
+['milk','Fresh Milk','🥛',12],['egg','Eggs','🥚',8],
+['flour','Flour','🌾',10],['sugar','Sugar','🍚',8],
+['butter','Butter','🧈',12],['berry','Strawberries','🍓',15],
+['choco','Chocolate','🍫',15],['cream','Whipped Cream','🍦',18]
+];
+const recipes=[
+{id:'cake',name:'Strawberry Cake',icon:'🍰',xp:20,food:25,req:{milk:1,egg:2,flour:2,sugar:1,berry:2,cream:1}},
+{id:'pancake',name:'Pancakes',icon:'🥞',xp:15,food:20,req:{milk:1,egg:1,flour:2,butter:1}},
+{id:'cookie',name:'Chocolate Cookies',icon:'🍪',xp:15,food:18,req:{flour:2,sugar:1,butter:1,choco:1}},
+{id:'shake',name:'Strawberry Milkshake',icon:'🥤',xp:12,food:20,req:{milk:2,berry:2,sugar:1}},
+{id:'pudding',name:'Milk Pudding',icon:'🍮',xp:12,food:20,req:{milk:2,egg:1,sugar:1}}
+];
+const toys=[
+{id:'pudding',name:'Pudding Squishy',icon:'🍮',price:35},
+{id:'berry',name:'Strawberry Squishy',icon:'🍓',price:45},
+{id:'bear',name:'Teddy Bear',icon:'🧸',price:40},
+{id:'duck',name:'Rubber Duck',icon:'🐥',price:25},
+{id:'unicorn',name:'Unicorn Plushie',icon:'🦄',price:70},
+{id:'bread',name:'Soft Bread Squishy',icon:'🍞',price:50},
+{id:'cloud',name:'Cloud Squishy',icon:'☁️',price:60}
+];
+
+function save(){localStorage.setItem('mochiDreamEN',JSON.stringify(d))}
+function load(){
+try{let s=JSON.parse(localStorage.getItem('mochiDreamEN'));if(s)d={...base,...s,inv:s.inv||{},foods:s.foods||{},toys:s.toys||['pudding']}}catch(e){}
+update();
+}
+function toast(t){
+let old=document.querySelector('.toast');if(old)old.remove();
+let e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2200);
+}
+function go(id,btn){
+document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+$(id).classList.add('active');
+document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+if(btn)btn.classList.add('active');
+}
+function log(t){$('log').innerHTML=t+'<br>'+$('log').innerHTML}
+function xp(n){
+d.xp+=n;
+while(d.xp>=100){d.xp-=100;d.level++;d.coins+=30;toast('🎉 LEVEL UP! +30 coins!')}
+}
+function update(){
+$('level').textContent='Lv.'+d.level;
+$('xp').textContent=d.xp;
+$('coins').textContent=d.coins;
+$('wallet').textContent=d.coins;
+$('xpbar').style.width=d.xp+'%';
+let stats=[['💗','Happiness','happiness','pink'],['🍓','Hunger','hunger','orange'],['⚡','Energy','energy','blue'],['✨','Cleanliness','clean','green']];
+$('stats').innerHTML=stats.map(s=>`<div class="stat"><div class="stathead"><span>${s[0]} ${s[1]}</span><b>${d[s[2]]}/100</b></div><div class="barbg"><div class="fill ${s[3]}" style="width:${d[s[2]]}%"></div></div></div>`).join('');
+let inv=ingredients.filter(x=>d.inv[x[0]]>0);
+$('inventory').innerHTML=inv.length?inv.map(x=>x[2]+' '+x[1]+' × '+d.inv[x[0]]).join('<br>'):'Your bag is empty ♡';
+renderKitchen();renderMarket();renderToyShop();renderOwned();
+save();
+}
+
+function petTalk(){
+let a=['I love you! 💗','Can we have cake today? 🍰','Give me a hug, please!','Let\'s play with squishies!','You are my best friend!'];
+$('bubble').textContent=a[Math.floor(Math.random()*a.length)];
+d.happiness=clamp(d.happiness+2);update();sound('pop');
+}
+function action(t){
+let a={
+feed:[20,4,0,-2,5,'Yummy! Thank you! 🍓'],
+play:[-5,15,-10,-2,10,'Yay! That was so fun!'],
+pet:[0,10,0,0,5,'I love your head pats!'],
+bath:[0,5,-3,30,8,'I smell so fresh now! 🛁'],
+sleep:[-5,3,35,0,8,'Good night! Zzz...']
+}[t];
+d.hunger=clamp(d.hunger+a[0]);d.happiness=clamp(d.happiness+a[1]);d.energy=clamp(d.energy+a[2]);d.clean=clamp(d.clean+a[3]);
+xp(a[4]);$('bubble').textContent=a[5];log(a[5]);update();sound('pop');
+}
+
+function renderMarket(){
+$('groceries').innerHTML=ingredients.map(g=>`<div class="item"><div class="emoji">${g[2]}</div><b>${g[1]}</b><p>🪙 ${g[3]}</p><button onclick="buyIngredient('${g[0]}')">Buy</button></div>`).join('');
+}
+function buyIngredient(id){
+let g=ingredients.find(x=>x[0]===id);
+if(d.coins<g[3])return toast('Not enough coins!');
+d.coins-=g[3];d.inv[id]=(d.inv[id]||0)+1;
+toast('Bought '+g[1]+'!');update();
+}
+
+function renderKitchen(){
+$('ingredients').innerHTML=ingredients.map(g=>`<div class="ingredient"><span>${g[2]}</span>${g[1]}<b>×${d.inv[g[0]]||0}</b></div>`).join('');
+$('recipes').innerHTML=recipes.map(r=>{
+let ok=Object.entries(r.req).every(([k,n])=>(d.inv[k]||0)>=n);
+return `<div class="item"><div class="emoji">${r.icon}</div><b>${r.name}</b><p>${Object.entries(r.req).map(([k,n])=>ingredients.find(g=>g[0]===k)[2]+'×'+n).join(' ')}</p><button class="${ok?'primary':''}" onclick="cook('${r.id}')">${ok?'👩‍🍳 Cook Now':'Need Ingredients'}</button></div>`;
+}).join('');
+let food=Object.keys(d.foods).filter(k=>d.foods[k]>0);
+$('foodtray').innerHTML=food.length?food.map(k=>{
+let r=recipes.find(x=>x.id===k);
+return `<div class="foodpiece" draggable="true" ondragstart="dragFood(event,'${k}')">${r.icon}<small style="display:block;font-size:10px">${d.foods[k]} servings</small></div>`;
+}).join(''):'No food yet. Let\'s cook something! ♡';
+}
+function cook(id){
+let r=recipes.find(x=>x.id===id);
+if(!Object.entries(r.req).every(([k,n])=>(d.inv[k]||0)>=n))return toast('You need more ingredients!');
+Object.entries(r.req).forEach(([k,n])=>d.inv[k]-=n);
+d.foods[id]=(d.foods[id]||0)+1;
+xp(r.xp);d.coins+=5;
+toast('✨ '+r.name+' is ready!');
+$('bubble').textContent='Mmm! That smells delicious!';
+sound('pop');log('Cooked '+r.name+' 🍰');update();
+}
+let draggingFood=null;
+function dragFood(e,id){draggingFood=id;e.dataTransfer.setData('text/plain',id)}
+function dropFood(e){e.preventDefault();let id=e.dataTransfer.getData('text/plain')||draggingFood;feedFood(id)}
+function feedFood(id){
+if(!d.foods[id])return;
+let r=recipes.find(x=>x.id===id);
+d.foods[id]--;
+d.hunger=clamp(d.hunger+r.food);d.happiness=clamp(d.happiness+10);xp(8);
+$('bubble').textContent='Nom nom! So delicious! 😋';
+$('face').textContent='◕ᴗ◕';
+toast('💗 Mochi ate '+r.name+'!');
+sound('pop');update();
+}
+
+function renderToyShop(){
+$('toyshop').innerHTML=toys.map(t=>`<div class="item"><div class="emoji">${t.icon}</div><b>${t.name}</b><p>🪙 ${t.price}</p><button onclick="buyToy('${t.id}')">${d.toys.includes(t.id)?'Owned ✓':'Buy Toy'}</button></div>`).join('');
+}
+function buyToy(id){
+let t=toys.find(x=>x.id===id);
+if(d.toys.includes(id))return toast('You already own this toy!');
+if(d.coins<t.price)return toast('Not enough coins!');
+d.coins-=t.price;d.toys.push(id);
+toast('🎀 You got '+t.name+'!');update();
+}
+function renderOwned(){
+$('ownedToys').innerHTML=d.toys.map(id=>{
+let t=toys.find(x=>x.id===id);
+return `<div class="item"><div class="emoji">${t.icon}</div><b>${t.name}</b><button onclick="selectToy('${id}')">Play with this</button></div>`;
+}).join('');
+if(!selectedToy||!d.toys.includes(selectedToy))selectedToy=d.toys[0];
+showToy();
+}
+function selectToy(id){selectedToy=id;showToy()}
+function showToy(){
+let t=toys.find(x=>x.id===selectedToy);
+if(!t)return;
+$('squishy').textContent=t.icon;$('toyName').textContent=t.name;
+}
+let squeezing=false;
+$('squishy').addEventListener('pointerdown',()=>{
+if(!selectedToy)return;
+squeezing=true;$('squishy').classList.add('pressed');
+$('toyHint').textContent='Squeeze! So soft and squishy!';
+sound('squish');
+});
+function releaseToy(){
+if(!squeezing)return;
+squeezing=false;$('squishy').classList.remove('pressed');
+$('toyHint').textContent='Boing! Try squeezing again! ♡';
+$('toyStars').textContent='✨ 💗 ✨';
+d.happiness=clamp(d.happiness+1);update();
+}
+$('squishy').addEventListener('pointerup',releaseToy);
+$('squishy').addEventListener('pointerleave',releaseToy);
+$('squishy').addEventListener('pointercancel',releaseToy);
+
+const replies=['I love you so much! 💗','Can I have a hug?','Let\'s bake a cake! 🍰','I want to play with squishies!','Today is such a happy day!'];
+function sendChat(){
+let v=$('chatinput').value.trim();if(!v)return;
+$('chatbox').innerHTML+='<div>💗 You: '+escapeHTML(v)+'</div>';
+$('chatinput').value='';
+setTimeout(()=>{$('chatbox').innerHTML+='<div>🐰 Mochi: '+replies[Math.floor(Math.random()*replies.length)]+'</div>'},300);
+d.happiness=clamp(d.happiness+3);xp(2);update();
+}
+function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+let audio;
+function sound(type){
+try{
+audio=audio||new(window.AudioContext||window.webkitAudioContext)();
+if(audio.state==='suspended')audio.resume();
+if(type==='squish'){
+let len=audio.sampleRate*.18;
+let buffer=audio.createBuffer(1,len,audio.sampleRate);
+let data=buffer.getChannelData(0);
+for(let i=0;i<len;i++)data[i]=(Math.random()*2-1)*Math.pow(1-i/len,3);
+let src=audio.createBufferSource(),filter=audio.createBiquadFilter(),gain=audio.createGain();
+src.buffer=buffer;filter.type='lowpass';filter.frequency.value=650;gain.gain.value=.16;
+src.connect(filter);filter.connect(gain);gain.connect(audio.destination);src.start();
+}else{
+let osc=audio.createOscillator(),gain=audio.createGain();
+osc.frequency.value=660;gain.gain.value=.035;
+osc.connect(gain);gain.connect(audio.destination);osc.start();osc.stop(audio.currentTime+.09);
+}
+}catch(e){}
+}
+
+let pixelRAF = null;
+let pixelKeys = {};
+let pixelCleanup = null;
+let pixelRunning = false;
+let jumpPressed = false;
+
+function startGame(type){
+  if(type !== 'jump') return;
+  clearInterval(gameLoop);
+  gameLoop = null;
+  if(pixelCleanup) pixelCleanup();
+
+  gameType = 'jump';
+  gameScore = 0;
+  const area = $('gameArea');
+  const canvas = $('canvas');
+  const ctx = canvas.getContext('2d');
+
+  area.classList.remove('hidden');
+  area.classList.add('pixel-fullscreen');
+  canvas.classList.remove('hidden');
+  canvas.width = 320;
+  canvas.height = 180;
+  canvas.style.width = 'min(100%, 1100px)';
+  canvas.style.height = 'auto';
+  canvas.style.aspectRatio = '16 / 9';
+  canvas.style.imageRendering = 'pixelated';
+
+  $('gameTitle').textContent = "MOCHI'S PIXEL ADVENTURE";
+  $('gameInfo').textContent = 'Move with ← → or A / D. Jump with SPACE, ↑, W, or the JUMP button.';
+  $('gameControls').innerHTML = `
+    <div class="pixel-hud"><span>🐾 MOCHI'S ADVENTURE</span><span>🟡 COINS: <b id="pixelScore">0</b></span></div>
+    <section id="pixelResult" class="pixel-result" hidden aria-live="polite">
+      <h4 id="pixelResultTitle">Let's try again!</h4>
+      <p id="pixelResultMessage">Mochi can do it. One more try?</p>
+      <div class="result-stats">
+        <div class="result-stat">Coins collected<strong id="pixelResultCoins">0</strong></div>
+        <div class="result-stat">Reward<strong id="pixelResultReward">0</strong></div>
+      </div>
+      <button type="button" id="pixelPlayAgain">Play again ♡</button>
+    </section>
+    <div class="pixel-buttons">
+      <div class="pixel-side-buttons">
+        <button id="pixelLeft" aria-label="Move left">◀</button>
+        <button id="pixelRight" aria-label="Move right">▶</button>
+      </div>
+      <button id="pixelJump" class="pixel-jump-button">JUMP ✦</button>
+      <button id="pixelExit" class="pixel-exit-button">EXIT ✕</button>
+    </div>
+  `;
+
+  const W = 320, H = 180;
+  const gravity = 0.24;
+  let camera = 0, frame = 0, score = 0;
+  let ended = false, won = false, animation = null;
+  const levelEnd = 1430;
+
+  const player = {
+    x: 22, y: 118, w: 12, h: 14,
+    vx: 0, vy: 0, speed: 1.45,
+    jumpPower: -4.65, grounded: false
+  };
+
+  const platforms = [
+    {x:0,y:151,w:100,h:29,c:0},
+    {x:116,y:137,w:48,h:8,c:1},
+    {x:181,y:119,w:48,h:8,c:2},
+    {x:247,y:139,w:48,h:8,c:0},
+    {x:316,y:151,w:76,h:29,c:0},
+    {x:414,y:132,w:52,h:8,c:1},
+    {x:487,y:111,w:48,h:8,c:2},
+    {x:558,y:135,w:55,h:8,c:0},
+    {x:635,y:151,w:90,h:29,c:0},
+    {x:758,y:130,w:48,h:8,c:1},
+    {x:830,y:108,w:48,h:8,c:2},
+    {x:899,y:132,w:60,h:8,c:0},
+    {x:987,y:151,w:90,h:29,c:0},
+    {x:1093,y:130,w:55,h:8,c:1},
+    {x:1173,y:108,w:48,h:8,c:2},
+    {x:1248,y:135,w:55,h:8,c:0},
+    {x:1340,y:151,w:110,h:29,c:0}
+  ];
+
+  const coinPositions = [
+    [75,126],[139,111],[199,93],[264,113],
+    [350,126],[433,106],[503,84],[580,109],
+    [675,126],[778,104],[847,82],[923,106],
+    [1027,126],[1114,104],[1194,82],[1274,109],
+    [1380,126]
+  ];
+  const coins = coinPositions.map(([x,y])=>({x,y,taken:false}));
+
+  function rect(x,y,w,h,color){
+    ctx.fillStyle = color;
+    ctx.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));
+  }
+
+  function cloud(x,y,s=1){
+    rect(x,y+3*s,12*s,5*s,'#fff8ed');
+    rect(x+4*s,y,12*s,8*s,'#fff8ed');
+    rect(x+11*s,y+3*s,9*s,5*s,'#fff8ed');
+    rect(x+5*s,y+8*s,12*s,2*s,'#dcebed');
+  }
+
+  function background(){
+    rect(0,0,W,H,'#b9dce3');
+    rect(0,113,W,38,'#dcebdc');
+    rect(0,137,W,14,'#c9dfce');
+
+    for(let i=0;i<6;i++){
+      const x = i*88 - (camera*.18 % 88);
+      rect(x,120,45,15,'#a9cdb6');
+      rect(x+9,112,28,8,'#a9cdb6');
+    }
+
+    for(let i=0;i<7;i++){
+      let x = (i*83-camera*.23)%390;
+      if(x < -25) x += 390;
+      cloud(x,18+(i%3)*12,.75+(i%2)*.2);
+    }
+
+    for(let i=0;i<12;i++){
+      let x=(i*43-camera*.45)%340;
+      if(x<0)x+=340;
+      rect(x,145,2,3,'#fff1d5');
+      rect(x-1,146,4,1,'#e9bdc9');
+    }
+  }
+
+  function drawPlatform(p){
+    const x=Math.round(p.x-camera);
+    if(x>W || x+p.w<0)return;
+    const palette=[
+      ['#c5dfc5','#9fc9ad','#80ad91'],
+      ['#f0d1d9','#dcb9c7','#bd98a8'],
+      ['#d9d0e9','#bdb0d6','#9d91b8']
+    ][p.c];
+    rect(x,p.y,p.w,p.h,palette[1]);
+    rect(x,p.y,p.w,3,palette[0]);
+    rect(x,p.y+3,p.w,Math.max(0,p.h-3),palette[1]);
+    for(let i=5;i<p.w-3;i+=10) rect(x+i,p.y+5,3,2,palette[2]);
+    if(p.c===0){
+      rect(x+7,p.y-2,4,2,'#a9cfad');
+      rect(x+25,p.y-2,3,2,'#a9cfad');
+    }
+  }
+
+  function drawCoin(c){
+    if(c.taken)return;
+    const x=Math.round(c.x-camera);
+    const y=Math.round(c.y+Math.sin(frame*.09+c.x)*1.2);
+    rect(x+3,y,4,2,'#fff4c9');
+    rect(x+1,y+2,8,7,'#f3d77e');
+    rect(x+3,y+3,4,5,'#ffe9a5');
+    rect(x+3,y+4,2,3,'#fff6d8');
+    rect(x+2,y+9,6,2,'#d4b766');
+  }
+
+  function drawMochi(){
+    const x=Math.round(player.x-camera), y=Math.round(player.y);
+    const bob=player.grounded ? Math.round(Math.sin(frame*.2)*.35) : 0;
+
+    // Ears and inner ear pixels
+    rect(x+2,y+1+bob,3,5,'#fff8ef');
+    rect(x+8,y+1+bob,3,5,'#fff8ef');
+    rect(x+3,y+2+bob,1,3,'#e7bdc8');
+    rect(x+9,y+2+bob,1,3,'#e7bdc8');
+
+    // Round bunny body
+    rect(x+2,y+5+bob,10,8,'#fff8ef');
+    rect(x+1,y+7+bob,12,5,'#fff8ef');
+    rect(x+3,y+12+bob,8,2,'#eadfd6');
+
+    // Face and cheeks
+    rect(x+4,y+8+bob,1,1,'#665d60');
+    rect(x+9,y+8+bob,1,1,'#665d60');
+    rect(x+6,y+10+bob,2,1,'#d58f9e');
+    rect(x+2,y+10+bob,2,1,'#edbdc8');
+    rect(x+10,y+10+bob,2,1,'#edbdc8');
+
+    if(!player.grounded){
+      rect(x+2,y+14,3,2,'#fff8ef');
+      rect(x+9,y+14,3,2,'#fff8ef');
+    }else{
+      rect(x+1,y+13,4,1,'#fff8ef');
+      rect(x+8,y+13,4,1,'#fff8ef');
+    }
+  }
+
+  function drawGoal(){
+    const x=1410-camera;
+    rect(x,105,3,46,'#fff8ef');
+    rect(x+3,105,15,8,'#e9c6d2');
+    rect(x+3,113,15,3,'#fff8ef');
+    rect(x+3,116,15,3,'#e9c6d2');
+  }
+
+  function drawOverlay(){
+    // End-of-game text is rendered in the smooth HTML result card, not pixel art.
+    rect(55,48,210,76,'rgba(255,248,237,.28)');
+  }
+
+  function showResult(){
+    const panel=$('pixelResult');
+    if(!panel)return;
+    panel.hidden=false;
+    $('pixelResultTitle').textContent=won?'You did it! ✨':'Oops! Try again ♡';
+    $('pixelResultMessage').textContent=won
+      ? 'Mochi reached the finish line. Such a good job!'
+      : 'Mochi fell down, but that is okay. Let’s give it another try!';
+    $('pixelResultCoins').textContent=score;
+    $('pixelResultReward').textContent=won?Math.max(10,score*3)+' 🪙':'0 🪙';
+  }
+
+  function render(){
+    ctx.imageSmoothingEnabled=false;
+    background();
+    platforms.forEach(drawPlatform);
+    coins.forEach(drawCoin);
+    drawGoal();
+    drawMochi();
+    if(ended)drawOverlay();
+  }
+
+  function updateScore(){
+    const el=$('pixelScore');
+    if(el)el.textContent=score;
+  }
+
+  function reset(){
+    player.x=22;player.y=118;player.vx=0;player.vy=0;
+    player.grounded=false;camera=0;score=0;
+    ended=false;won=false;
+    $('pixelResult').hidden=true;
+    coins.forEach(c=>c.taken=false);
+    updateScore();
+  }
+
+  function doJump(){
+    if(ended){
+      reset();
+      return;
+    }
+    if(player.grounded){
+      player.vy=player.jumpPower;
+      player.grounded=false;
+    }
+  }
+
+  function tick(){
+    if(!pixelRunning)return;
+    frame++;
+
+    if(!ended){
+      player.vx=0;
+      if(pixelKeys.left)player.vx=-player.speed;
+      if(pixelKeys.right)player.vx=player.speed;
+
+      const oldBottom=player.y+player.h;
+      player.x=Math.max(0,player.x+player.vx);
+      player.vy+=gravity;
+      player.y+=player.vy;
+      player.grounded=false;
+
+      for(const p of platforms){
+        const overlap=player.x+player.w>p.x && player.x<p.x+p.w;
+        const newBottom=player.y+player.h;
+        if(overlap && oldBottom<=p.y && newBottom>=p.y && player.vy>=0){
+          player.y=p.y-player.h;
+          player.vy=0;
+          player.grounded=true;
+        }
+      }
+
+      for(const c of coins){
+        if(!c.taken &&
+          player.x+player.w>c.x && player.x<c.x+10 &&
+          player.y+player.h>c.y && player.y<c.y+11){
+          c.taken=true;
+          score++;
+          updateScore();
+          if(typeof sound==='function')sound('pop');
+        }
+      }
+
+      camera=Math.max(0,Math.min(levelEnd-W,player.x-100));
+
+      if(player.y>H+25){
+        ended=true;
+        won=false;
+        showResult();
+      }
+      if(player.x>levelEnd-25){
+        ended=true;
+        won=true;
+        d.coins+=Math.max(10,score*3);
+        xp(10);
+        showResult();
+        toast('🎉 Mochi finished the adventure!');
+        update();
+      }
+    }
+
+    render();
+    pixelRAF=requestAnimationFrame(tick);
+  }
+
+  function keyDown(e){
+    if(['ArrowLeft','ArrowRight','ArrowUp',' ','a','A','d','D','w','W'].includes(e.key))e.preventDefault();
+    if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A')pixelKeys.left=true;
+    if(e.key==='ArrowRight'||e.key==='d'||e.key==='D')pixelKeys.right=true;
+    if((e.key===' '||e.key==='ArrowUp'||e.key==='w'||e.key==='W')&&!e.repeat)doJump();
+    if(e.key==='Escape')closeGame();
+  }
+  function keyUp(e){
+    if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A')pixelKeys.left=false;
+    if(e.key==='ArrowRight'||e.key==='d'||e.key==='D')pixelKeys.right=false;
+  }
+
+  document.addEventListener('keydown',keyDown);
+  document.addEventListener('keyup',keyUp);
+
+  function holdButton(id,key){
+    const btn=$(id);
+    const down=e=>{e.preventDefault();pixelKeys[key]=true;};
+    const up=e=>{e.preventDefault();pixelKeys[key]=false;};
+    btn.addEventListener('pointerdown',down);
+    btn.addEventListener('pointerup',up);
+    btn.addEventListener('pointerleave',up);
+    btn.addEventListener('pointercancel',up);
+    return ()=>{
+      btn.removeEventListener('pointerdown',down);
+      btn.removeEventListener('pointerup',up);
+      btn.removeEventListener('pointerleave',up);
+      btn.removeEventListener('pointercancel',up);
+    };
+  }
+
+  const removeLeft=holdButton('pixelLeft','left');
+  const removeRight=holdButton('pixelRight','right');
+  const jumpBtn=$('pixelJump');
+  const jumpHandler=e=>{e.preventDefault();doJump();};
+  jumpBtn.addEventListener('pointerdown',jumpHandler);
+  const exitBtn=$('pixelExit');
+  const exitHandler=()=>closeGame();
+  exitBtn.addEventListener('click',exitHandler);
+  const againBtn=$('pixelPlayAgain');
+  const againHandler=()=>reset();
+  againBtn.addEventListener('click',againHandler);
+
+  pixelRunning=true;
+  pixelCleanup=()=>{
+    pixelRunning=false;
+    cancelAnimationFrame(pixelRAF);
+    document.removeEventListener('keydown',keyDown);
+    document.removeEventListener('keyup',keyUp);
+    removeLeft();removeRight();
+    jumpBtn.removeEventListener('pointerdown',jumpHandler);
+    exitBtn.removeEventListener('click',exitHandler);
+    againBtn.removeEventListener('click',againHandler);
+    pixelKeys={};
+  };
+
+  updateScore();
+  tick();
+}
+
+function finishGame(score){
+  // Retained as a compatibility function for any existing app references.
+  clearInterval(gameLoop);
+  gameLoop=null;
+}
+
+function closeGame(){
+  if(pixelCleanup){
+    pixelCleanup();
+    pixelCleanup=null;
+  }
+  clearInterval(gameLoop);
+  gameLoop=null;
+  $('gameArea').classList.add('hidden');
+  $('gameArea').classList.remove('pixel-fullscreen');
+  $('canvas').classList.remove('hidden');
+  $('canvas').style.width='';
+  $('canvas').style.height='';
+  $('canvas').style.aspectRatio='';
+  $('canvas').style.imageRendering='';
+  $('gameControls').innerHTML='';
+}
+
+function restartCurrent(){
+  startGame('jump');
+}
+
+load();
+</script>
+</body>
+</html>
